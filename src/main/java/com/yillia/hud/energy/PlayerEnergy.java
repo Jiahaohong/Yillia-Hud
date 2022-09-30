@@ -4,7 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 
 public class PlayerEnergy {
     private int energy;
-    private final int MAX_ENERGY = 100;
+    public final int MAX_ENERGY = 100;
 
     public int getEnergy() {
         return this.energy;

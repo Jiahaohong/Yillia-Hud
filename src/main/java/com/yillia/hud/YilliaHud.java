@@ -1,5 +1,6 @@
 package com.yillia.hud;
 
+import com.yillia.hud.network.ModMessages;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,6 +16,8 @@ public class YilliaHud
     public YilliaHud()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        modEventBus.addListener(ModMessages::register);
 
         MinecraftForge.EVENT_BUS.register(this);
     }

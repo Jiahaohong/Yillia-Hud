@@ -2,6 +2,7 @@ package com.yillia.hud.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yillia.hud.YilliaHud;
+import com.yillia.hud.energy.PlayerEnergy;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -24,7 +25,12 @@ public class EnergyHudOverlay {
         GuiComponent.blit(poseStack, x + 10, y + 81, 0, 0, 81, 9, 81, 9);
 
         RenderSystem.setShaderTexture(0, FILLED_ENERGY);
-//        GuiComponent.blit(poseStack, x - 94, y - 54, 0, 0, 182, 5, 182, 5);
+        if (ClientEnergyData.getPlayerEnergy() > 0) {
+            int offset = (int)((double)ClientEnergyData.getPlayerEnergy() / ClientEnergyData.getPlayerMaxEnergy() * 81 + 0.5) ;
+            GuiComponent.blit(poseStack, x + 10, y + 81 + 81 - offset, 0, 0, 81, 9, 81 + 81 - offset, 9);
+        } else {
+            GuiComponent.blit(poseStack, x + 10, y + 81, 0, 0, 81, 9, 81, 9);
+        }
 
     });
 
