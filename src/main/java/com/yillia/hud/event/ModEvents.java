@@ -53,7 +53,6 @@ public class ModEvents {
                 if (energy.getEnergy() > 0) {
                     if (event.player.isSprinting()) {
                         energy.subEnergy(1);
-                        event.player.sendSystemMessage(Component.literal("Energy:"+energy.getEnergy()));
                         ModMessages.sendToPlayer(new EnergyC2SPacket(energy.getEnergy()), (ServerPlayer) event.player);
                     }
                 }

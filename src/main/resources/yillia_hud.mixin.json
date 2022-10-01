@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.yillia.hud.mixin",
+  "compatibilityLevel": "JAVA_18",
+  "refmap": "yillia_hud.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}
