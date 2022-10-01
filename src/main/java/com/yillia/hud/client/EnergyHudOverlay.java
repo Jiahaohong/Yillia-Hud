@@ -2,7 +2,6 @@ package com.yillia.hud.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yillia.hud.YilliaHud;
-import com.yillia.hud.energy.PlayerEnergy;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -26,9 +25,9 @@ public class EnergyHudOverlay {
         }
 
 
-        if (ClientEnergyData.getPlayerEnergy() > 0) {
-            int full = ClientEnergyData.getPlayerEnergy() / 10;
-            int half = ClientEnergyData.getPlayerEnergy() - full * 10;
+        if (ClientEnergyData.getEnergy() > 0) {
+            int full = ClientEnergyData.getEnergy() / 10;
+            int half = ClientEnergyData.getEnergy() - full * 10;
 
             for (int i = 0; i < 10; i++) {
                 if (i <= full - 1) {

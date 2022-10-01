@@ -5,7 +5,6 @@ import com.yillia.hud.energy.PlayerEnergy;
 import com.yillia.hud.energy.PlayerEnergyProvider;
 import com.yillia.hud.network.ModMessages;
 import com.yillia.hud.network.packet.EnergyC2SPacket;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -50,12 +49,14 @@ public class ModEvents {
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.side == LogicalSide.SERVER) {
             event.player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
-                if (energy.getEnergy() > 0) {
-                    if (event.player.isSprinting()) {
-                        energy.subEnergy(1);
-                        event.player.sendSystemMessage(Component.literal("Energy:"+energy.getEnergy()));
-                        ModMessages.sendToPlayer(new EnergyC2SPacket(energy.getEnergy()), (ServerPlayer) event.player);
-                    }
+                if (event.player.isSprinting()) {
+                    energy.sprintTick += 1;
+                }
+
+                if (energy.sprintTick >= energy.MAX_SPRINT_TICK) {
+                    energy.sprintTick = 0;
+                    energy.subEnergy(1);
+                    ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
                 }
             });
         }
@@ -65,7 +66,7 @@ public class ModEvents {
         if (!event.getLevel().isClientSide()) {
             if (event.getEntity() instanceof ServerPlayer player) {
                 player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
-                    ModMessages.sendToPlayer(new EnergyC2SPacket(energy.getEnergy()), player);
+                    ModMessages.sendToPlayer(new EnergyC2SPacket(energy), player);
                 });
             }
         }
