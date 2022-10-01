@@ -50,14 +50,17 @@ public class ModEvents {
         if (event.side == LogicalSide.SERVER) {
             event.player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
                 if (event.player.isSprinting()) {
-                    energy.sprintTick += 1;
+                    energy.sprintTick = Math.min(energy.sprintTick + 1, energy.MAX_SPRINT_TICK);
+                    if (energy.sprintTick == energy.MAX_SPRINT_TICK) {
+                        energy.sprintTick = 0;
+                        energy.subEnergy(1);
+                        ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
+                    }
+                } else {
+                    energy.sprintTick = Math.max(energy.sprintTick - 1, 0);
                 }
 
-                if (energy.sprintTick >= energy.MAX_SPRINT_TICK) {
-                    energy.sprintTick = 0;
-                    energy.subEnergy(1);
-                    ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
-                }
+
             });
         }
     }
