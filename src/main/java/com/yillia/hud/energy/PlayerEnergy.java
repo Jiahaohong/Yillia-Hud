@@ -6,9 +6,11 @@ public class PlayerEnergy {
     public final int MAX_ENERGY = 100;
     public final int MAX_SPRINT_TICK = 10;
     public final int MAX_SWIM_TICK = 30;
+    public final int MAX_REST_TICK = 30;
     private int energy;
     public int sprintTick;
     public int swimTick;
+    public int restTick;
 
     public PlayerEnergy() {
         energy = MAX_ENERGY;

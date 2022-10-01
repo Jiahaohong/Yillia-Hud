@@ -45,6 +45,18 @@ public class ModEvents {
         event.register(PlayerEnergy.class);
     }
 
+//    @SubscribeEvent
+//    public static void onPlayerCollideHorizontally(TickEvent.PlayerTickEvent event) {
+//        double climbSpeed = 0.2;
+//        if (event.side == LogicalSide.SERVER) {
+//            if (event.player.horizontalCollision && !event.player.isShiftKeyDown()) {
+//                if (event.player. > 0.0f && event.player.motionY < climbSpeed) {
+//                    event.player.motionY = climbSpeed;
+//                }
+//            }
+//        }
+//    }
+
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.side == LogicalSide.SERVER) {
@@ -74,6 +86,16 @@ public class ModEvents {
                         energy.swimTick = Math.max(energy.swimTick - 1, 0);
                     }
 
+                    //Player Resting
+                    if (energy.sprintTick <= 0 && energy.swimTick <=0) {
+                        energy.restTick = Math.min(energy.restTick + 1, energy.MAX_REST_TICK);
+                        if (energy.restTick == energy.MAX_REST_TICK) {
+                            energy.addEnergy(1);
+                            ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
+                        }
+                    } else {
+                        energy.restTick = 0;
+                    }
 
                 });
             }
