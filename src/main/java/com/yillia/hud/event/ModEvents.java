@@ -90,11 +90,16 @@ public class ModEvents {
                     if (energy.sprintTick <= 0 && energy.swimTick <=0) {
                         energy.restTick = Math.min(energy.restTick + 1, energy.MAX_REST_TICK);
                         if (energy.restTick == energy.MAX_REST_TICK) {
-                            energy.addEnergy(1);
-                            ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
+                            energy.recoverTick = Math.min(energy.recoverTick + 1, energy.MAX_RECOVER_TICK);
+                            if (energy.recoverTick == energy.MAX_RECOVER_TICK) {
+                                energy.recoverTick = 0;
+                                energy.addEnergy(1);
+                                ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
+                            }
                         }
                     } else {
-                        energy.restTick = 0;
+                        energy.restTick = Math.max(energy.restTick - 1, 0);
+                        energy.recoverTick = 0;
                     }
 
                 });

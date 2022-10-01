@@ -7,6 +7,7 @@ public class ClientEnergyData {
     private static int sprintTick;
     private static int swimTick;
     private static int restTick;
+    private static int recoverTick;
 
     public static void setEnergy(int energy) {
         ClientEnergyData.energy = energy;
@@ -38,5 +39,13 @@ public class ClientEnergyData {
 
     public static int getRestTick() {
         return restTick;
+    }
+
+    public static void setRecoverTick(int recoverTick) {
+        ClientEnergyData.recoverTick = recoverTick;
+    }
+
+    public static int getRecoverTick() {
+        return recoverTick;
     }
 }
