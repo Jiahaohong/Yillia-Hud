@@ -5,6 +5,7 @@ import com.yillia.hud.energy.PlayerEnergy;
 public class ClientEnergyData {
     private static int energy;
     private static int sprintTick;
+    private static int swimTick;
 
     public static void setEnergy(int energy) {
         ClientEnergyData.energy = energy;
@@ -12,10 +13,6 @@ public class ClientEnergyData {
 
     public static int getEnergy() {
         return energy;
-    }
-
-    public static int getPlayerMaxEnergy() {
-        return new PlayerEnergy().MAX_ENERGY;
     }
 
     public static void setSprintTick(int sprintTick) {
@@ -26,7 +23,11 @@ public class ClientEnergyData {
         return sprintTick;
     }
 
-    public static int getMaxSprintTIck() {
-        return new PlayerEnergy().MAX_SPRINT_TICK;
+    public static void setSwimTick(int swimTick) {
+        ClientEnergyData.swimTick = swimTick;
+    }
+
+    public static int getSwimTick() {
+        return swimTick;
     }
 }

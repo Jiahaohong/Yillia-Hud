@@ -5,8 +5,10 @@ import net.minecraft.nbt.CompoundTag;
 public class PlayerEnergy {
     public final int MAX_ENERGY = 100;
     public final int MAX_SPRINT_TICK = 10;
+    public final int MAX_SWIM_TICK = 30;
     private int energy;
     public int sprintTick;
+    public int swimTick;
 
     public PlayerEnergy() {
         energy = MAX_ENERGY;
@@ -33,11 +35,13 @@ public class PlayerEnergy {
     public void saveNBTData(CompoundTag nbt) {
         nbt.putInt("energy", this.energy);
         nbt.putInt("sprintTick", this.sprintTick);
+        nbt.putInt("swimTick", this.swimTick);
     }
 
     public void loadNBTData(CompoundTag nbt) {
         this.energy = nbt.getInt("energy");
         this.sprintTick = nbt.getInt("sprintTick");
+        this.swimTick = nbt.getInt("swimTick");
     }
 
 }

@@ -48,20 +48,36 @@ public class ModEvents {
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.side == LogicalSide.SERVER) {
-            event.player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
-                if (event.player.isSprinting()) {
-                    energy.sprintTick = Math.min(energy.sprintTick + 1, energy.MAX_SPRINT_TICK);
-                    if (energy.sprintTick == energy.MAX_SPRINT_TICK) {
-                        energy.sprintTick = 0;
-                        energy.subEnergy(1);
-                        ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
+            if (!event.player.isCreative() && !event.player.isSpectator()) {
+                event.player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
+                    // Player Sprinting
+                    if (event.player.isSprinting()) {
+                        energy.sprintTick = Math.min(energy.sprintTick + 1, energy.MAX_SPRINT_TICK);
+                        if (energy.sprintTick == energy.MAX_SPRINT_TICK) {
+                            energy.sprintTick = 0;
+                            energy.subEnergy(1);
+                            ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
+                        }
+                    } else {
+                        energy.sprintTick = Math.max(energy.sprintTick - 1, 0);
                     }
-                } else {
-                    energy.sprintTick = Math.max(energy.sprintTick - 1, 0);
-                }
+
+                    //Player Swimming
+                    if (event.player.isSwimming()) {
+                        energy.swimTick = Math.min(energy.swimTick + 1, energy.MAX_SWIM_TICK);
+                        if (energy.swimTick == energy.MAX_SWIM_TICK) {
+                            energy.swimTick = 0;
+                            energy.subEnergy(1);
+                            ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
+                        }
+                    } else {
+                        energy.swimTick = Math.max(energy.swimTick - 1, 0);
+                    }
 
 
-            });
+                });
+            }
+
         }
     }
 
