@@ -21,15 +21,13 @@ public class EnergyHudOverlay {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, EMPTY_ENERGY);
-        //91 pixels -> 81 pixels
-        GuiComponent.blit(poseStack, x + 10, y + 81, 0, 0, 81, 9, 81, 9);
+
+        GuiComponent.blit(poseStack, x + 10, screenHeight - 39, 0, 0, 88, 9, 88, 9);
 
         RenderSystem.setShaderTexture(0, FILLED_ENERGY);
         if (ClientEnergyData.getPlayerEnergy() > 0) {
             int offset = (int)((double)ClientEnergyData.getPlayerEnergy() / ClientEnergyData.getPlayerMaxEnergy() * 81 + 0.5) ;
-            GuiComponent.blit(poseStack, x + 10, y + 81 + 81 - offset, 0, 0, 81, 9, 81 + 81 - offset, 9);
-        } else {
-            GuiComponent.blit(poseStack, x + 10, y + 81, 0, 0, 81, 9, 81, 9);
+            GuiComponent.blit(poseStack, x + 10 + 81 - offset, screenHeight - 39, 81 - offset, 0, offset, 9, 81, 9);
         }
 
     });

@@ -6,8 +6,12 @@ public class PlayerEnergy {
     private int energy;
     public final int MAX_ENERGY = 100;
 
+    public PlayerEnergy() {
+        energy = MAX_ENERGY;
+    }
+
     public int getEnergy() {
-        return this.energy;
+        return energy;
     }
 
     public void addEnergy(int delta) {
@@ -19,7 +23,7 @@ public class PlayerEnergy {
     }
 
     public void copyFrom(PlayerEnergy src) {
-        this.energy = src.getEnergy();
+        this.energy = src.energy;
     }
 
     public void saveNBTData(CompoundTag nbt) {

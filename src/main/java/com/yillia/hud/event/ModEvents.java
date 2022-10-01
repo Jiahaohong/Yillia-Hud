@@ -1,6 +1,5 @@
 package com.yillia.hud.event;
 
-import com.google.common.eventbus.Subscribe;
 import com.yillia.hud.YilliaHud;
 import com.yillia.hud.energy.PlayerEnergy;
 import com.yillia.hud.energy.PlayerEnergyProvider;
@@ -25,7 +24,7 @@ public class ModEvents {
     @SubscribeEvent
     public static void onAttachPlayerCapabilities(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player player) {
-            if (player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).isPresent()) {
+            if (!player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).isPresent()) {
                 event.addCapability(new ResourceLocation(YilliaHud.MOD_ID, "properties"), new PlayerEnergyProvider());
             }
         }
@@ -57,7 +56,6 @@ public class ModEvents {
                         event.player.sendSystemMessage(Component.literal("Energy:"+energy.getEnergy()));
                         ModMessages.sendToPlayer(new EnergyC2SPacket(energy.getEnergy()), (ServerPlayer) event.player);
                     }
-                    System.out.print("sprint");
                 }
             });
         }
