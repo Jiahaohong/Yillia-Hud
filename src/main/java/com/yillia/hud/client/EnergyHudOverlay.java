@@ -9,10 +9,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class EnergyHudOverlay {
-    private static final ResourceLocation FILLED_ENERGY = new ResourceLocation(YilliaHud.MOD_ID,
-            "textures/gui/filled_energy.png");
-    private static final ResourceLocation EMPTY_ENERGY = new ResourceLocation(YilliaHud.MOD_ID,
-            "textures/gui/empty_energy.png");
+    private static final ResourceLocation MOD_ICON = new ResourceLocation(YilliaHud.MOD_ID,
+            "textures/gui/mod_icon.png");
 
     public static final IGuiOverlay HUD_ENERGY = ((gui, poseStack, partialTick, screenWidth, screenHeight) -> {
         int x = screenWidth / 2;
@@ -20,14 +18,28 @@ public class EnergyHudOverlay {
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, EMPTY_ENERGY);
+        RenderSystem.setShaderTexture(0, MOD_ICON);
 
-        GuiComponent.blit(poseStack, x + 10, screenHeight - 39, 0, 0, 88, 9, 88, 9);
 
-        RenderSystem.setShaderTexture(0, FILLED_ENERGY);
+        for (int i = 0; i < 10; i++) {
+            GuiComponent.blit(poseStack, x + 11 + 72 - i * 8, screenHeight - 39, 70, 0, 7, 9, 77, 9);
+        }
+
+
         if (ClientEnergyData.getPlayerEnergy() > 0) {
-            int offset = (int)((double)ClientEnergyData.getPlayerEnergy() / ClientEnergyData.getPlayerMaxEnergy() * 81 + 0.5) ;
-            GuiComponent.blit(poseStack, x + 10 + 81 - offset, screenHeight - 39, 81 - offset, 0, offset, 9, 81, 9);
+            int full = ClientEnergyData.getPlayerEnergy() / 10;
+            int half = ClientEnergyData.getPlayerEnergy() - full * 10;
+
+            for (int i = 0; i < 10; i++) {
+                if (i <= full - 1) {
+                    GuiComponent.blit(poseStack, x + 11 + 72 - i * 8, screenHeight - 39, 0, 0, 7, 9, 77, 9);
+                } else if (i == full) {
+                    GuiComponent.blit(poseStack, x + 11 + 72 - i * 8, screenHeight - 39, 70-half*7, 0, 7, 9, 77, 9);
+                } else {
+                    GuiComponent.blit(poseStack, x + 11 + 72 - i * 8, screenHeight - 39, 70, 0, 7, 9, 77, 9);
+
+                }
+            }
         }
 
     });
