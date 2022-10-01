@@ -58,6 +58,14 @@ public class ModEvents {
 //    }
 
     @SubscribeEvent
+    public static void onPlayerHunger(TickEvent.PlayerTickEvent event) {
+        if (event.side == LogicalSide.SERVER) {
+            event.player.getFoodData().setSaturation(0);
+            event.player.getFoodData().setFoodLevel(5);
+        }
+    }
+
+    @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.side == LogicalSide.SERVER) {
             if (!event.player.isCreative() && !event.player.isSpectator()) {

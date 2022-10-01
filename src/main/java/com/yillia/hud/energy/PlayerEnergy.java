@@ -7,7 +7,7 @@ public class PlayerEnergy {
     public final int MAX_SPRINT_TICK = 10;
     public final int MAX_SWIM_TICK = 16;
     public final int MAX_REST_TICK = 30;
-    public final int MAX_RECOVER_TICK = 8;
+    public final int MAX_RECOVER_TICK = 5;
     private int energy;
     public int sprintTick;
     public int swimTick;
