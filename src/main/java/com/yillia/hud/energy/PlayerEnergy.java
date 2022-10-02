@@ -3,11 +3,12 @@ package com.yillia.hud.energy;
 import net.minecraft.nbt.CompoundTag;
 
 public class PlayerEnergy {
-    public final int MAX_ENERGY = 100;
-    public final int MAX_SPRINT_TICK = 10;
-    public final int MAX_SWIM_TICK = 16;
-    public final int MAX_REST_TICK = 30;
-    public final int MAX_RECOVER_TICK = 5;
+    public final int BASE_MAX_ENERGY = 100;
+    public int MAX_ENERGY = 100;
+    public int MAX_SPRINT_TICK = 10;
+    public int MAX_SWIM_TICK = 16;
+    public int MAX_REST_TICK = 30;
+    public int MAX_RECOVER_TICK = 5;
     private int energy;
     public int sprintTick;
     public int swimTick;
@@ -24,6 +25,10 @@ public class PlayerEnergy {
 
     public int getEnergy() {
         return this.energy;
+    }
+
+    public void setMaxEnergy(int max) {
+        MAX_ENERGY = max;
     }
 
     public void addEnergy(int delta) {

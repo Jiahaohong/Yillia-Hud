@@ -1,6 +1,7 @@
 package com.yillia.hud.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.yillia.hud.YilliaHud;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
@@ -21,23 +22,20 @@ public class EnergyHudOverlay {
             RenderSystem.setShaderTexture(0, MOD_ICON);
 
 
-            for (int i = 0; i < 10; i++) {
-                GuiComponent.blit(poseStack, x + 11 + 72 - i * 8, screenHeight - 39, 70, 0, 7, 9, 77, 9);
-            }
-
-            if (ClientEnergyData.getEnergy() > 0) {
+            if (ClientEnergyData.getEnergy() >= 0) {
                 int full = ClientEnergyData.getEnergy() / 10;
-                int half = ClientEnergyData.getEnergy() - full * 10;
+                int half = ClientEnergyData.getEnergy() % 10;
 
-                for (int i = 0; i < 10; i++) {
+                int j = 0;
+                for (int i = 0; i < ClientEnergyData.getMaxEnergy() / 10; i++) {
                     if (i <= full - 1) {
-                        GuiComponent.blit(poseStack, x + 11 + 72 - i * 8, screenHeight - 39, 0, 0, 7, 9, 77, 9);
+                        GuiComponent.blit(poseStack, x + 11 + 72 - (i % 10) * 8, screenHeight - 39 - (j / 10) * 10, 0, 0, 7, 9, 77, 9);
                     } else if (i == full) {
-                        GuiComponent.blit(poseStack, x + 11 + 72 - i * 8, screenHeight - 39, 70-half*7, 0, 7, 9, 77, 9);
+                        GuiComponent.blit(poseStack, x + 11 + 72 - (i % 10) * 8, screenHeight - 39 - (j / 10) * 10, 70-half*7, 0, 7, 9, 77, 9);
                     } else {
-                        GuiComponent.blit(poseStack, x + 11 + 72 - i * 8, screenHeight - 39, 70, 0, 7, 9, 77, 9);
-
+                        GuiComponent.blit(poseStack, x + 11 + 72 - (i % 10) * 8, screenHeight - 39 - (j / 10) * 10, 70, 0, 7, 9, 77, 9);
                     }
+                    j++;
                 }
             }
         }

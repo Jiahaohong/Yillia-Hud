@@ -5,6 +5,7 @@ import com.yillia.hud.energy.PlayerEnergy;
 import com.yillia.hud.energy.PlayerEnergyProvider;
 import com.yillia.hud.network.ModMessages;
 import com.yillia.hud.network.packet.EnergyC2SPacket;
+import com.yillia.hud.register.ModEffects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -13,6 +14,7 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
@@ -41,27 +43,26 @@ public class ModEvents {
     }
 
     @SubscribeEvent
+    public static void onPlayerJoinWorld(EntityJoinLevelEvent event) {
+        if (!event.getLevel().isClientSide()) {
+            if (event.getEntity() instanceof ServerPlayer player) {
+                player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
+                    ModMessages.sendToPlayer(new EnergyC2SPacket(energy), player);
+                });
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.register(PlayerEnergy.class);
     }
 
-//    @SubscribeEvent
-//    public static void onPlayerCollideHorizontally(TickEvent.PlayerTickEvent event) {
-//        double climbSpeed = 0.2;
-//        if (event.side == LogicalSide.SERVER) {
-//            if (event.player.horizontalCollision && !event.player.isShiftKeyDown()) {
-//                if (event.player. > 0.0f && event.player.motionY < climbSpeed) {
-//                    event.player.motionY = climbSpeed;
-//                }
-//            }
-//        }
-//    }
-
     @SubscribeEvent
-    public static void onPlayerHunger(TickEvent.PlayerTickEvent event) {
+    public static void removeHunger(TickEvent.PlayerTickEvent event) {
         if (event.side == LogicalSide.SERVER) {
             event.player.getFoodData().setSaturation(0);
-            event.player.getFoodData().setFoodLevel(5);
+            event.player.getFoodData().setFoodLevel(10);
         }
     }
 
@@ -115,15 +116,4 @@ public class ModEvents {
 
         }
     }
-
-    @SubscribeEvent public static void onPlayerJoinWorld(EntityJoinLevelEvent event) {
-        if (!event.getLevel().isClientSide()) {
-            if (event.getEntity() instanceof ServerPlayer player) {
-                player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
-                    ModMessages.sendToPlayer(new EnergyC2SPacket(energy), player);
-                });
-            }
-        }
-    }
-
 }

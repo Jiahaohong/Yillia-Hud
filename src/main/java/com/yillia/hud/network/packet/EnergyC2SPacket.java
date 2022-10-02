@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 
 public class EnergyC2SPacket {
     private final int energy;
+    private final int max_energy;
     private final int sprintTick;
     private final int swimTick;
     private final int restTick;
@@ -18,6 +19,7 @@ public class EnergyC2SPacket {
 
     public EnergyC2SPacket(PlayerEnergy energy) {
         this.energy = energy.getEnergy();
+        this.max_energy = energy.MAX_ENERGY;
         this.sprintTick = energy.sprintTick;
         this.swimTick = energy.swimTick;
         this.restTick = energy.restTick;
@@ -26,6 +28,7 @@ public class EnergyC2SPacket {
 
     public EnergyC2SPacket(FriendlyByteBuf buf) {
         this.energy = buf.readInt();
+        this.max_energy = buf.readInt();
         this.sprintTick = buf.readInt();
         this.swimTick = buf.readInt();
         this.restTick = buf.readInt();
@@ -34,6 +37,7 @@ public class EnergyC2SPacket {
 
     public void toBytes(FriendlyByteBuf buf) {
         buf.writeInt(this.energy);
+        buf.writeInt(this.max_energy);
         buf.writeInt(this.sprintTick);
         buf.writeInt(this.swimTick);
         buf.writeInt(this.restTick);
@@ -44,6 +48,7 @@ public class EnergyC2SPacket {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             ClientEnergyData.setEnergy(this.energy);
+            ClientEnergyData.setMaxEnergy(this.max_energy);
             ClientEnergyData.setSprintTick(this.sprintTick);
             ClientEnergyData.setSwimTick(this.swimTick);
             ClientEnergyData.setRestTick(this.restTick);
