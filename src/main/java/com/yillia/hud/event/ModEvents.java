@@ -10,6 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
@@ -59,10 +61,17 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public static void removeHunger(TickEvent.PlayerTickEvent event) {
+    public static void deactivateHunger(TickEvent.PlayerTickEvent event) {
         if (event.side == LogicalSide.SERVER) {
             event.player.getFoodData().setSaturation(0);
             event.player.getFoodData().setFoodLevel(10);
+        }
+    }
+
+    @SubscribeEvent
+    public static void cancelHungerRender(RenderGuiOverlayEvent.Pre event) {
+        if (event.getOverlay() == VanillaGuiOverlay.FOOD_LEVEL.type()) {
+            event.setCanceled(true);
         }
     }
 

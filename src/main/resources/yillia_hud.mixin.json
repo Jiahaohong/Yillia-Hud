@@ -1,12 +1,11 @@
 {
   "required": true,
   "package": "com.yillia.hud.mixin",
-  "compatibilityLevel": "JAVA_18",
+  "compatibilityLevel": "JAVA_13",
   "refmap": "yillia_hud.refmap.json",
   "mixins": [
   ],
   "client": [
-    "GuiMixin"
   ],
   "injectors": {
     "defaultRequire": 1
