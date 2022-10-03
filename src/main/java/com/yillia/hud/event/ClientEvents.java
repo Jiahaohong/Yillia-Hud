@@ -1,7 +1,7 @@
 package com.yillia.hud.event;
 
 import com.yillia.hud.YilliaHud;
-import com.yillia.hud.client.EnergyHudOverlay;
+import com.yillia.hud.client.HudOverlay;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,7 +16,7 @@ public class ClientEvents {
     public static class ClientModBusEvents {
         @SubscribeEvent
         public static void registerGuiOverlay(RegisterGuiOverlaysEvent event) {
-            event.registerAboveAll("energy", EnergyHudOverlay.HUD_ENERGY);
+            event.registerAboveAll("hud", HudOverlay.HUD);
         }
     }
 }

@@ -82,19 +82,13 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public static void cancelFoodRender(RenderGuiOverlayEvent.Pre event) {
-        if (event.getOverlay() == VanillaGuiOverlay.FOOD_LEVEL.type()) {
+    public static void cancelVanillaRender(RenderGuiOverlayEvent.Pre event) {
+        if (event.getOverlay() == VanillaGuiOverlay.FOOD_LEVEL.type()
+            || event.getOverlay() == VanillaGuiOverlay.AIR_LEVEL.type()
+            || event.getOverlay() == VanillaGuiOverlay.EXPERIENCE_BAR.type()) {
             event.setCanceled(true);
         }
     }
-
-    @SubscribeEvent
-    public static void cancelAirRender(RenderGuiOverlayEvent.Pre event) {
-        if (event.getOverlay() == VanillaGuiOverlay.AIR_LEVEL.type()) {
-            event.setCanceled(true);
-        }
-    }
-
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
