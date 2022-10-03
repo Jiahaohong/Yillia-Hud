@@ -1,4 +1,4 @@
-package com.yillia.hud.energy;
+package com.yillia.hud.data;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

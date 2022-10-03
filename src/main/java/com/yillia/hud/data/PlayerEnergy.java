@@ -1,6 +1,7 @@
-package com.yillia.hud.energy;
+package com.yillia.hud.data;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 
 public class PlayerEnergy {
     public final int BASE_MAX_ENERGY = 100;
@@ -40,6 +41,11 @@ public class PlayerEnergy {
     }
 
     public void copyFrom(PlayerEnergy src) {
+        this.MAX_ENERGY = src.MAX_ENERGY;
+        this.MAX_SPRINT_TICK = src.MAX_SPRINT_TICK;
+        this.MAX_SWIM_TICK = src.MAX_SWIM_TICK;
+        this.MAX_REST_TICK = src.MAX_REST_TICK;
+        this.MAX_RECOVER_TICK = src.MAX_RECOVER_TICK;
         this.energy = src.energy;
         this.sprintTick = src.sprintTick;
         this.swimTick = src.swimTick;
@@ -48,6 +54,12 @@ public class PlayerEnergy {
     }
 
     public void saveNBTData(CompoundTag nbt) {
+        nbt.putInt("max_energy", this.MAX_ENERGY);
+        nbt.putInt("max_sprint_tick", this.MAX_SPRINT_TICK);
+        nbt.putInt("max_swim_tick", this.MAX_SWIM_TICK);
+        nbt.putInt("max_rest_tick", this.MAX_REST_TICK);
+        nbt.putInt("max_recover_tick", this.MAX_RECOVER_TICK);
+
         nbt.putInt("energy", this.energy);
         nbt.putInt("sprintTick", this.sprintTick);
         nbt.putInt("swimTick", this.swimTick);
@@ -56,11 +68,35 @@ public class PlayerEnergy {
     }
 
     public void loadNBTData(CompoundTag nbt) {
+        this.MAX_ENERGY = nbt.getInt("max_energy");
+        this.MAX_SPRINT_TICK = nbt.getInt("max_sprint_tick");
+        this.MAX_SWIM_TICK = nbt.getInt("max_swim_tick");
+        this.MAX_REST_TICK = nbt.getInt("max_rest_tick");
+        this.MAX_RECOVER_TICK = nbt.getInt("max_recover_tick");
+
         this.energy = nbt.getInt("energy");
         this.sprintTick = nbt.getInt("sprintTick");
         this.swimTick = nbt.getInt("swimTick");
         this.restTick = nbt.getInt("restTick");
         this.recoverTick = nbt.getInt("recoverTick");
+    }
+
+    public void loadBuf(FriendlyByteBuf buf) {
+        this.MAX_ENERGY = buf.readInt();
+        this.energy = buf.readInt();
+        this.sprintTick = buf.readInt();
+        this.swimTick = buf.readInt();
+        this.restTick = buf.readInt();
+        this.recoverTick = buf.readInt();
+    }
+
+    public void toBytes(FriendlyByteBuf buf) {
+        buf.writeInt(this.MAX_ENERGY);
+        buf.writeInt(this.energy);
+        buf.writeInt(this.sprintTick);
+        buf.writeInt(this.swimTick);
+        buf.writeInt(this.restTick);
+        buf.writeInt(this.recoverTick);
     }
 
 }
