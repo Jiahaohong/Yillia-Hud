@@ -11,8 +11,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class EnergyBoostEffect extends MobEffect {
-    public EnergyBoostEffect(MobEffectCategory p_19451_, int p_19452_) {
+public class RecoveryEffect extends MobEffect {
+    public RecoveryEffect(MobEffectCategory p_19451_, int p_19452_) {
         super(p_19451_, p_19452_);
     }
 
@@ -21,7 +21,7 @@ public class EnergyBoostEffect extends MobEffect {
         if (!livingEntity.level.isClientSide()) {
             if (livingEntity instanceof Player player) {
                 player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
-                    energy.setMaxEnergy(energy.BASE_MAX_ENERGY + 40*(amplifier+1));
+                    energy.MAX_RECOVER_TICK = Math.max(energy.MAX_RECOVER_TICK - (amplifier+1) * 2, 0);
                     ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) player);
                 });
             }
@@ -37,13 +37,9 @@ public class EnergyBoostEffect extends MobEffect {
     public void removeAttributeModifiers(@NotNull LivingEntity livingEntity, @NotNull AttributeMap attributeMap, int p_19438_) {
         super.removeAttributeModifiers(livingEntity, attributeMap, p_19438_);
         livingEntity.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
-            energy.setMaxEnergy(energy.BASE_MAX_ENERGY);
-            if (energy.getEnergy() > energy.BASE_MAX_ENERGY) {
-                energy.subEnergy(energy.getEnergy() - energy.BASE_MAX_ENERGY);
-            }
+            energy.MAX_RECOVER_TICK = energy.BASE_MAX_RECOVER_TICK;
             ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) livingEntity);
         });
 
     }
-
 }

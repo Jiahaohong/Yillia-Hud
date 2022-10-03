@@ -5,11 +5,12 @@ import net.minecraft.network.FriendlyByteBuf;
 
 public class PlayerEnergy {
     public final int BASE_MAX_ENERGY = 100;
-    public int MAX_ENERGY = 100;
+    public final int BASE_MAX_RECOVER_TICK = 8;
+    public int MAX_ENERGY = BASE_MAX_ENERGY;
     public int MAX_SPRINT_TICK = 10;
     public int MAX_SWIM_TICK = 16;
     public int MAX_REST_TICK = 30;
-    public int MAX_RECOVER_TICK = 5;
+    public int MAX_RECOVER_TICK = BASE_MAX_RECOVER_TICK;
     private int energy;
     public int sprintTick;
     public int swimTick;
@@ -83,6 +84,11 @@ public class PlayerEnergy {
 
     public void loadBuf(FriendlyByteBuf buf) {
         this.MAX_ENERGY = buf.readInt();
+        this.MAX_SPRINT_TICK = buf.readInt();
+        this.MAX_SWIM_TICK = buf.readInt();
+        this.MAX_REST_TICK = buf.readInt();
+        this.MAX_RECOVER_TICK = buf.readInt();
+
         this.energy = buf.readInt();
         this.sprintTick = buf.readInt();
         this.swimTick = buf.readInt();
@@ -92,6 +98,11 @@ public class PlayerEnergy {
 
     public void toBytes(FriendlyByteBuf buf) {
         buf.writeInt(this.MAX_ENERGY);
+        buf.writeInt(this.MAX_SPRINT_TICK);
+        buf.writeInt(this.MAX_SWIM_TICK);
+        buf.writeInt(this.MAX_REST_TICK);
+        buf.writeInt(this.MAX_RECOVER_TICK);
+
         buf.writeInt(this.energy);
         buf.writeInt(this.sprintTick);
         buf.writeInt(this.swimTick);
