@@ -1,16 +1,26 @@
 package com.yillia.hud.event;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.yillia.hud.YilliaHud;
 import com.yillia.hud.energy.PlayerEnergy;
 import com.yillia.hud.energy.PlayerEnergyProvider;
 import com.yillia.hud.register.ModMessages;
 import com.yillia.hud.network.packet.EnergyC2SPacket;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
@@ -20,8 +30,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
+import static net.minecraft.client.gui.GuiComponent.GUI_ICONS_LOCATION;
+import static net.minecraft.client.gui.GuiComponent.blit;
+
 @Mod.EventBusSubscriber(modid = YilliaHud.MOD_ID)
 public class ModEvents {
+    private static final Minecraft mc = Minecraft.getInstance();
+
     @SubscribeEvent
     public static void onAttachPlayerCapabilities(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player player) {
@@ -79,6 +94,7 @@ public class ModEvents {
             event.setCanceled(true);
         }
     }
+
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
