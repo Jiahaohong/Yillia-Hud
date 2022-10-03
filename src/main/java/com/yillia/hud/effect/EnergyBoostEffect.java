@@ -1,7 +1,7 @@
 package com.yillia.hud.effect;
 
 import com.yillia.hud.energy.PlayerEnergyProvider;
-import com.yillia.hud.network.ModMessages;
+import com.yillia.hud.register.ModMessages;
 import com.yillia.hud.network.packet.EnergyC2SPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;

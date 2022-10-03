@@ -1,4 +1,4 @@
-package com.yillia.hud.network;
+package com.yillia.hud.register;
 
 import com.yillia.hud.YilliaHud;
 import com.yillia.hud.network.packet.EnergyC2SPacket;

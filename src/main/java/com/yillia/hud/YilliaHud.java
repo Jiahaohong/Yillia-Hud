@@ -1,6 +1,6 @@
 package com.yillia.hud;
 
-import com.yillia.hud.network.ModMessages;
+import com.yillia.hud.register.ModMessages;
 import com.yillia.hud.register.ModEffects;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;

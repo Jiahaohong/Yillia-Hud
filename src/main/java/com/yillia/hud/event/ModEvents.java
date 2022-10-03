@@ -3,9 +3,8 @@ package com.yillia.hud.event;
 import com.yillia.hud.YilliaHud;
 import com.yillia.hud.energy.PlayerEnergy;
 import com.yillia.hud.energy.PlayerEnergyProvider;
-import com.yillia.hud.network.ModMessages;
+import com.yillia.hud.register.ModMessages;
 import com.yillia.hud.network.packet.EnergyC2SPacket;
-import com.yillia.hud.register.ModEffects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -16,7 +15,6 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
@@ -69,8 +67,15 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public static void cancelHungerRender(RenderGuiOverlayEvent.Pre event) {
+    public static void cancelFoodRender(RenderGuiOverlayEvent.Pre event) {
         if (event.getOverlay() == VanillaGuiOverlay.FOOD_LEVEL.type()) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void cancelAirRender(RenderGuiOverlayEvent.Pre event) {
+        if (event.getOverlay() == VanillaGuiOverlay.AIR_LEVEL.type()) {
             event.setCanceled(true);
         }
     }
