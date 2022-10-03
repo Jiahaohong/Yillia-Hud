@@ -1,8 +1,8 @@
 package com.yillia.hud.effect;
 
 import com.yillia.hud.data.PlayerEnergyProvider;
-import com.yillia.hud.register.ModMessages;
 import com.yillia.hud.network.packet.EnergyC2SPacket;
+import com.yillia.hud.register.ModMessages;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -38,6 +38,9 @@ public class EnergyBoostEffect extends MobEffect {
         super.removeAttributeModifiers(livingEntity, attributeMap, p_19438_);
         livingEntity.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
             energy.setMaxEnergy(energy.BASE_MAX_ENERGY);
+            if (energy.getEnergy() > energy.BASE_MAX_ENERGY) {
+                energy.subEnergy(energy.getEnergy() - energy.BASE_MAX_ENERGY);
+            }
             ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) livingEntity);
         });
 
