@@ -29,10 +29,6 @@ public class PlayerEnergy {
         return this.energy;
     }
 
-    public void setMaxEnergy(int max) {
-        MAX_ENERGY = max;
-    }
-
     public void addEnergy(int delta) {
         this.energy = Math.min(this.energy + delta, MAX_ENERGY);
     }
@@ -55,11 +51,11 @@ public class PlayerEnergy {
     }
 
     public void saveNBTData(CompoundTag nbt) {
-        nbt.putInt("max_energy", this.MAX_ENERGY);
-        nbt.putInt("max_sprint_tick", this.MAX_SPRINT_TICK);
-        nbt.putInt("max_swim_tick", this.MAX_SWIM_TICK);
-        nbt.putInt("max_rest_tick", this.MAX_REST_TICK);
-        nbt.putInt("max_recover_tick", this.MAX_RECOVER_TICK);
+        nbt.putInt("MAX_ENERGY", this.MAX_ENERGY);
+        nbt.putInt("MAX_SPRINT_TICK", this.MAX_SPRINT_TICK);
+        nbt.putInt("MAX_SWIM_TICK", this.MAX_SWIM_TICK);
+        nbt.putInt("MAX_REST_TICK", this.MAX_REST_TICK);
+        nbt.putInt("MAX_RECOVER_TICK", this.MAX_RECOVER_TICK);
 
         nbt.putInt("energy", this.energy);
         nbt.putInt("sprintTick", this.sprintTick);
@@ -69,11 +65,11 @@ public class PlayerEnergy {
     }
 
     public void loadNBTData(CompoundTag nbt) {
-        this.MAX_ENERGY = nbt.getInt("max_energy");
-        this.MAX_SPRINT_TICK = nbt.getInt("max_sprint_tick");
-        this.MAX_SWIM_TICK = nbt.getInt("max_swim_tick");
-        this.MAX_REST_TICK = nbt.getInt("max_rest_tick");
-        this.MAX_RECOVER_TICK = nbt.getInt("max_recover_tick");
+        this.MAX_ENERGY = nbt.getInt("MAX_ENERGY");
+        this.MAX_SPRINT_TICK = nbt.getInt("MAX_SPRINT_TICK");
+        this.MAX_SWIM_TICK = nbt.getInt("MAX_SWIM_TICK");
+        this.MAX_REST_TICK = nbt.getInt("MAX_REST_TICK");
+        this.MAX_RECOVER_TICK = nbt.getInt("MAX_RECOVER_TICK");
 
         this.energy = nbt.getInt("energy");
         this.sprintTick = nbt.getInt("sprintTick");

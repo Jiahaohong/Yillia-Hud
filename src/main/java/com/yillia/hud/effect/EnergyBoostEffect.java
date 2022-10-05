@@ -21,7 +21,7 @@ public class EnergyBoostEffect extends MobEffect {
         if (!livingEntity.level.isClientSide()) {
             if (livingEntity instanceof Player player) {
                 player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
-                    energy.setMaxEnergy(energy.BASE_MAX_ENERGY + 40*(amplifier+1));
+                    energy.MAX_ENERGY = energy.BASE_MAX_ENERGY + 40*(amplifier+1);
                     ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) player);
                 });
             }
@@ -37,7 +37,7 @@ public class EnergyBoostEffect extends MobEffect {
     public void removeAttributeModifiers(@NotNull LivingEntity livingEntity, @NotNull AttributeMap attributeMap, int p_19438_) {
         super.removeAttributeModifiers(livingEntity, attributeMap, p_19438_);
         livingEntity.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
-            energy.setMaxEnergy(energy.BASE_MAX_ENERGY);
+            energy.MAX_ENERGY = energy.BASE_MAX_ENERGY;
             if (energy.getEnergy() > energy.BASE_MAX_ENERGY) {
                 energy.subEnergy(energy.getEnergy() - energy.BASE_MAX_ENERGY);
             }

@@ -2,6 +2,7 @@ package com.yillia.hud.register;
 
 import com.yillia.hud.YilliaHud;
 import com.yillia.hud.network.packet.EnergyC2SPacket;
+import com.yillia.hud.network.packet.TempC2SPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -32,6 +33,12 @@ public class ModMessages {
                 .decoder(EnergyC2SPacket::new)
                 .encoder(EnergyC2SPacket::toBytes)
                 .consumerMainThread(EnergyC2SPacket::handle)
+                .add();
+
+        net.messageBuilder(TempC2SPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(TempC2SPacket::new)
+                .encoder(TempC2SPacket::toBytes)
+                .consumerMainThread(TempC2SPacket::handle)
                 .add();
     }
 
