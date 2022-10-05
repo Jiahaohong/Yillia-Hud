@@ -10,8 +10,8 @@ import java.util.function.Supplier;
 public class EnergyC2SPacket {
     private final PlayerEnergy energyData = new PlayerEnergy();
 
-    public EnergyC2SPacket(PlayerEnergy energy) {
-        this.energyData.copyFrom(energy);
+    public EnergyC2SPacket(PlayerEnergy src) {
+        this.energyData.copyFrom(src);
     }
 
     public EnergyC2SPacket(FriendlyByteBuf buf) {
@@ -29,5 +29,4 @@ public class EnergyC2SPacket {
         });
         return true;
     }
-
 }
