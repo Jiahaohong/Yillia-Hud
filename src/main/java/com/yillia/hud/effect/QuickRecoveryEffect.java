@@ -22,7 +22,7 @@ public class QuickRecoveryEffect extends MobEffect {
         if (!livingEntity.level.isClientSide()) {
             if (livingEntity instanceof Player player) {
                 player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
-                    energy.RECOVER_SPEED = amplifier+2;
+                    energy.recoverSpeed = PlayerEnergy.BASE_RECOVER_SPEED * (amplifier + 2);
                     ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) player);
                 });
             }
@@ -38,9 +38,8 @@ public class QuickRecoveryEffect extends MobEffect {
     public void removeAttributeModifiers(@NotNull LivingEntity livingEntity, @NotNull AttributeMap attributeMap, int p_19438_) {
         super.removeAttributeModifiers(livingEntity, attributeMap, p_19438_);
         livingEntity.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
-            energy.RECOVER_SPEED = PlayerEnergy.BASE_RECOVER_SPEED;
+            energy.recoverSpeed = PlayerEnergy.BASE_RECOVER_SPEED;
             ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) livingEntity);
         });
-
     }
 }

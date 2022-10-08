@@ -106,8 +106,8 @@ public class ModEvents {
 
                     //Player Resting
                     if (!isSPrint && !isSwim) {
-                        energy.restTick = Math.min(energy.restTick + 1, energy.REST_TICK);
-                        if (energy.restTick == energy.REST_TICK) {
+                        energy.restTick = Math.min(energy.restTick + 1, PlayerEnergy.BASE_REST_TICK);
+                        if (energy.restTick == PlayerEnergy.BASE_REST_TICK) {
                             energy.addEnergy(energy.recoverSpeed);
                             ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
                         }
