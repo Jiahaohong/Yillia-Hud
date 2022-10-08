@@ -6,6 +6,7 @@ import com.yillia.hud.data.PlayerEnergyProvider;
 import com.yillia.hud.network.packet.EnergyC2SPacket;
 import com.yillia.hud.register.ModMessages;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -89,6 +90,7 @@ public class ModEvents {
                     if (event.player.isSprinting()) {
                         energy.subEnergy(energy.sprintConsume);
                         ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
+                        event.player.sendSystemMessage(Component.literal("Energy:" + energy.getEnergy()));
                     } else {
                         isSPrint = false;
                     }

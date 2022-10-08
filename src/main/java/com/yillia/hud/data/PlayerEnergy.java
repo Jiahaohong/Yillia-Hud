@@ -4,11 +4,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 
 public class PlayerEnergy {
-    public static final int BASE_MAX_ENERGY = 1000;
-    public static final int BASE_SPRINT_CONSUME = 10;
-    public static final int BASE_SWIM_CONSUME = 10;
-    public static final int BASE_REST_TICK = 20;
-    public static final int BASE_RECOVER_SPEED = 1;
+    public static final int BASE_MAX_ENERGY = 1440;
+    public static final int BASE_SPRINT_CONSUME = 5;
+    public static final int BASE_SWIM_CONSUME = 5;
+    public static final int BASE_REST_TICK = 60;
+    public static final int BASE_RECOVER_SPEED = 8;
     public int MAX_ENERGY = BASE_MAX_ENERGY;
     public int SPRINT_CONSUME = BASE_SPRINT_CONSUME;
     public int SWIM_CONSUME = BASE_SWIM_CONSUME;
