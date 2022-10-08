@@ -6,7 +6,6 @@ import com.yillia.hud.data.PlayerEnergyProvider;
 import com.yillia.hud.network.packet.EnergyC2SPacket;
 import com.yillia.hud.register.ModMessages;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -67,6 +66,11 @@ public class ModEvents {
         if (event.side == LogicalSide.SERVER) {
             event.player.getFoodData().setSaturation(0);
             event.player.getFoodData().setFoodLevel(10);
+            event.player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
+                if (energy.getEnergy() <= 0) {
+                    event.player.getFoodData().setFoodLevel(4);
+                }
+            });
         }
     }
 
@@ -90,7 +94,6 @@ public class ModEvents {
                     if (event.player.isSprinting()) {
                         energy.subEnergy(energy.sprintConsume);
                         ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
-                        event.player.sendSystemMessage(Component.literal("Energy:" + energy.getEnergy()));
                     } else {
                         isSPrint = false;
                     }
@@ -111,7 +114,7 @@ public class ModEvents {
                             ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
                         }
                     } else {
-                        energy.restTick = Math.max(energy.restTick - 1, 0);
+                        energy.restTick = 0;
                     }
 
                 });
