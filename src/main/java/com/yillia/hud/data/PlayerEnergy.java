@@ -4,25 +4,28 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 
 public class PlayerEnergy {
-    public final int BASE_MAX_ENERGY = 100;
-    public final int BASE_MAX_RECOVER_TICK = 8;
+    public static final int BASE_MAX_ENERGY = 1000;
+    public static final int BASE_SPRINT_CONSUME = 10;
+    public static final int BASE_SWIM_CONSUME = 10;
+    public static final int BASE_REST_TICK = 20;
+    public static final int BASE_RECOVER_SPEED = 1;
     public int MAX_ENERGY = BASE_MAX_ENERGY;
-    public int MAX_SPRINT_TICK = 10;
-    public int MAX_SWIM_TICK = 16;
-    public int MAX_REST_TICK = 30;
-    public int MAX_RECOVER_TICK = BASE_MAX_RECOVER_TICK;
+    public int SPRINT_CONSUME = BASE_SPRINT_CONSUME;
+    public int SWIM_CONSUME = BASE_SWIM_CONSUME;
+    public int REST_TICK = BASE_REST_TICK;
+    public int RECOVER_SPEED = BASE_RECOVER_SPEED;
     private int energy;
-    public int sprintTick;
-    public int swimTick;
+    public int sprintConsume;
+    public int swimConsume;
     public int restTick;
-    public int recoverTick;
+    public int recoverSpeed;
 
     public PlayerEnergy() {
         energy = MAX_ENERGY;
-        sprintTick = 0;
-        swimTick = 0;
-        restTick = 0;
-        recoverTick = 0;
+        sprintConsume = BASE_SPRINT_CONSUME;
+        swimConsume = BASE_SWIM_CONSUME;
+        restTick = BASE_REST_TICK;
+        recoverSpeed = BASE_RECOVER_SPEED;
     }
 
     public int getEnergy() {
@@ -39,71 +42,72 @@ public class PlayerEnergy {
 
     public void copyFrom(PlayerEnergy src) {
         this.MAX_ENERGY = src.MAX_ENERGY;
-        this.MAX_SPRINT_TICK = src.MAX_SPRINT_TICK;
-        this.MAX_SWIM_TICK = src.MAX_SWIM_TICK;
-        this.MAX_REST_TICK = src.MAX_REST_TICK;
-        this.MAX_RECOVER_TICK = src.MAX_RECOVER_TICK;
+        this.SPRINT_CONSUME = src.SPRINT_CONSUME;
+        this.SWIM_CONSUME = src.SWIM_CONSUME;
+        this.REST_TICK = src.REST_TICK;
+        this.RECOVER_SPEED = src.RECOVER_SPEED;
+
         this.energy = src.energy;
-        this.sprintTick = src.sprintTick;
-        this.swimTick = src.swimTick;
+        this.sprintConsume = src.sprintConsume;
+        this.swimConsume = src.swimConsume;
         this.restTick = src.restTick;
-        this.recoverTick = src.recoverTick;
+        this.recoverSpeed = src.recoverSpeed;
     }
 
     public void saveNBTData(CompoundTag nbt) {
         nbt.putInt("MAX_ENERGY", this.MAX_ENERGY);
-        nbt.putInt("MAX_SPRINT_TICK", this.MAX_SPRINT_TICK);
-        nbt.putInt("MAX_SWIM_TICK", this.MAX_SWIM_TICK);
-        nbt.putInt("MAX_REST_TICK", this.MAX_REST_TICK);
-        nbt.putInt("MAX_RECOVER_TICK", this.MAX_RECOVER_TICK);
+        nbt.putInt("SPRINT_CONSUME", this.SPRINT_CONSUME);
+        nbt.putInt("SWIM_CONSUME", this.SWIM_CONSUME);
+        nbt.putInt("REST_TICK", this.REST_TICK);
+        nbt.putInt("RECOVER_SPEED", this.RECOVER_SPEED);
 
         nbt.putInt("energy", this.energy);
-        nbt.putInt("sprintTick", this.sprintTick);
-        nbt.putInt("swimTick", this.swimTick);
+        nbt.putInt("sprintTick", this.sprintConsume);
+        nbt.putInt("swimTick", this.swimConsume);
         nbt.putInt("restTick", this.restTick);
-        nbt.putInt("recoverTick", this.recoverTick);
+        nbt.putInt("recoverTick", this.recoverSpeed);
     }
 
     public void loadNBTData(CompoundTag nbt) {
         this.MAX_ENERGY = nbt.getInt("MAX_ENERGY");
-        this.MAX_SPRINT_TICK = nbt.getInt("MAX_SPRINT_TICK");
-        this.MAX_SWIM_TICK = nbt.getInt("MAX_SWIM_TICK");
-        this.MAX_REST_TICK = nbt.getInt("MAX_REST_TICK");
-        this.MAX_RECOVER_TICK = nbt.getInt("MAX_RECOVER_TICK");
+        this.SPRINT_CONSUME = nbt.getInt("SPRINT_CONSUME");
+        this.SWIM_CONSUME = nbt.getInt("SWIM_CONSUME");
+        this.REST_TICK = nbt.getInt("REST_TICK");
+        this.RECOVER_SPEED = nbt.getInt("RECOVER_SPEED");
 
         this.energy = nbt.getInt("energy");
-        this.sprintTick = nbt.getInt("sprintTick");
-        this.swimTick = nbt.getInt("swimTick");
+        this.sprintConsume = nbt.getInt("sprintTick");
+        this.swimConsume = nbt.getInt("swimTick");
         this.restTick = nbt.getInt("restTick");
-        this.recoverTick = nbt.getInt("recoverTick");
+        this.recoverSpeed = nbt.getInt("recoverTick");
     }
 
     public void loadBuf(FriendlyByteBuf buf) {
         this.MAX_ENERGY = buf.readInt();
-        this.MAX_SPRINT_TICK = buf.readInt();
-        this.MAX_SWIM_TICK = buf.readInt();
-        this.MAX_REST_TICK = buf.readInt();
-        this.MAX_RECOVER_TICK = buf.readInt();
+        this.SPRINT_CONSUME = buf.readInt();
+        this.SWIM_CONSUME = buf.readInt();
+        this.REST_TICK = buf.readInt();
+        this.RECOVER_SPEED = buf.readInt();
 
         this.energy = buf.readInt();
-        this.sprintTick = buf.readInt();
-        this.swimTick = buf.readInt();
+        this.sprintConsume = buf.readInt();
+        this.swimConsume = buf.readInt();
         this.restTick = buf.readInt();
-        this.recoverTick = buf.readInt();
+        this.recoverSpeed = buf.readInt();
     }
 
     public void toBytes(FriendlyByteBuf buf) {
         buf.writeInt(this.MAX_ENERGY);
-        buf.writeInt(this.MAX_SPRINT_TICK);
-        buf.writeInt(this.MAX_SWIM_TICK);
-        buf.writeInt(this.MAX_REST_TICK);
-        buf.writeInt(this.MAX_RECOVER_TICK);
+        buf.writeInt(this.SPRINT_CONSUME);
+        buf.writeInt(this.SWIM_CONSUME);
+        buf.writeInt(this.REST_TICK);
+        buf.writeInt(this.RECOVER_SPEED);
 
         buf.writeInt(this.energy);
-        buf.writeInt(this.sprintTick);
-        buf.writeInt(this.swimTick);
+        buf.writeInt(this.sprintConsume);
+        buf.writeInt(this.swimConsume);
         buf.writeInt(this.restTick);
-        buf.writeInt(this.recoverTick);
+        buf.writeInt(this.recoverSpeed);
     }
 
 }

@@ -3,8 +3,8 @@ package com.yillia.hud.event;
 import com.yillia.hud.YilliaHud;
 import com.yillia.hud.data.PlayerEnergy;
 import com.yillia.hud.data.PlayerEnergyProvider;
-import com.yillia.hud.register.ModMessages;
 import com.yillia.hud.network.packet.EnergyC2SPacket;
+import com.yillia.hud.register.ModMessages;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,8 +20,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-
-import static net.minecraft.client.gui.GuiComponent.blit;
 
 @Mod.EventBusSubscriber(modid = YilliaHud.MOD_ID)
 public class ModEvents {
@@ -85,44 +83,33 @@ public class ModEvents {
         if (event.side == LogicalSide.SERVER) {
             if (!event.player.isCreative() && !event.player.isSpectator()) {
                 event.player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
+                    boolean isSPrint = true;
+                    boolean isSwim = true;
                     // Player Sprinting
                     if (event.player.isSprinting()) {
-                        energy.sprintTick = Math.min(energy.sprintTick + 1, energy.MAX_SPRINT_TICK);
-                        if (energy.sprintTick == energy.MAX_SPRINT_TICK) {
-                            energy.sprintTick = 0;
-                            energy.subEnergy(1);
-                            ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
-                        }
+                        energy.subEnergy(energy.sprintConsume);
+                        ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
                     } else {
-                        energy.sprintTick = Math.max(energy.sprintTick - 1, 0);
+                        isSPrint = false;
                     }
 
                     //Player Swimming
                     if (event.player.isSwimming()) {
-                        energy.swimTick = Math.min(energy.swimTick + 1, energy.MAX_SWIM_TICK);
-                        if (energy.swimTick == energy.MAX_SWIM_TICK) {
-                            energy.swimTick = 0;
-                            energy.subEnergy(1);
-                            ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
-                        }
+                        energy.subEnergy(energy.swimConsume);
+                        ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
                     } else {
-                        energy.swimTick = Math.max(energy.swimTick - 1, 0);
+                        isSwim = false;
                     }
 
                     //Player Resting
-                    if (energy.sprintTick <= 0 && energy.swimTick <=0) {
-                        energy.restTick = Math.min(energy.restTick + 1, energy.MAX_REST_TICK);
-                        if (energy.restTick == energy.MAX_REST_TICK) {
-                            energy.recoverTick = Math.min(energy.recoverTick + 1, energy.MAX_RECOVER_TICK);
-                            if (energy.recoverTick == energy.MAX_RECOVER_TICK) {
-                                energy.recoverTick = 0;
-                                energy.addEnergy(1);
-                                ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
-                            }
+                    if (!isSPrint && !isSwim) {
+                        energy.restTick = Math.min(energy.restTick + 1, energy.REST_TICK);
+                        if (energy.restTick == energy.REST_TICK) {
+                            energy.addEnergy(energy.recoverSpeed);
+                            ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) event.player);
                         }
                     } else {
                         energy.restTick = Math.max(energy.restTick - 1, 0);
-                        energy.recoverTick = 0;
                     }
 
                 });

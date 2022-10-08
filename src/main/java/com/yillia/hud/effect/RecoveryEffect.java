@@ -1,5 +1,6 @@
 package com.yillia.hud.effect;
 
+import com.yillia.hud.data.PlayerEnergy;
 import com.yillia.hud.data.PlayerEnergyProvider;
 import com.yillia.hud.network.packet.EnergyC2SPacket;
 import com.yillia.hud.register.ModMessages;
@@ -21,7 +22,7 @@ public class RecoveryEffect extends MobEffect {
         if (!livingEntity.level.isClientSide()) {
             if (livingEntity instanceof Player player) {
                 player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
-                    energy.MAX_RECOVER_TICK = Math.max(energy.MAX_RECOVER_TICK - (amplifier+1) * 2, 0);
+                    energy.RECOVER_SPEED = amplifier+2;
                     ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) player);
                 });
             }
@@ -37,7 +38,7 @@ public class RecoveryEffect extends MobEffect {
     public void removeAttributeModifiers(@NotNull LivingEntity livingEntity, @NotNull AttributeMap attributeMap, int p_19438_) {
         super.removeAttributeModifiers(livingEntity, attributeMap, p_19438_);
         livingEntity.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
-            energy.MAX_RECOVER_TICK = energy.BASE_MAX_RECOVER_TICK;
+            energy.RECOVER_SPEED = PlayerEnergy.BASE_RECOVER_SPEED;
             ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) livingEntity);
         });
 
