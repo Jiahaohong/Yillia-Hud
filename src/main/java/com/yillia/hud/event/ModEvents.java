@@ -76,9 +76,7 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void cancelVanillaRender(RenderGuiOverlayEvent.Pre event) {
-        if (event.getOverlay() == VanillaGuiOverlay.FOOD_LEVEL.type()
-            || event.getOverlay() == VanillaGuiOverlay.AIR_LEVEL.type()
-            || event.getOverlay() == VanillaGuiOverlay.EXPERIENCE_BAR.type()) {
+        if (event.getOverlay() == VanillaGuiOverlay.FOOD_LEVEL.type()) {
             event.setCanceled(true);
         }
     }
