@@ -12,8 +12,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class RecoveryEffect extends MobEffect {
-    public RecoveryEffect(MobEffectCategory p_19451_, int p_19452_) {
+public class QuickRecoveryEffect extends MobEffect {
+    public QuickRecoveryEffect(MobEffectCategory p_19451_, int p_19452_) {
         super(p_19451_, p_19452_);
     }
 
