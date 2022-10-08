@@ -16,13 +16,13 @@ public class ModEffects {
             = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, YilliaHud.MOD_ID);
 
     public static final RegistryObject<MobEffect> ENERGY_BOOST = EFFECTS.register("energy_boost",
-            () -> new EnergyBoostEffect(MobEffectCategory.BENEFICIAL, 3124687));
+            () -> new EnergyBoostEffect(MobEffectCategory.BENEFICIAL, 0x55FF55));
 
     public static final RegistryObject<MobEffect> QUICK_RECOVERY = EFFECTS.register("quick_recovery",
-            () -> new QuickRecoveryEffect(MobEffectCategory.BENEFICIAL, 3124687));
+            () -> new QuickRecoveryEffect(MobEffectCategory.BENEFICIAL, 0x55FF55));
 
     public static final RegistryObject<MobEffect> INSTANCE_ENERGY = EFFECTS.register("instance_energy",
-            () -> new InstanceEnergyEffect(MobEffectCategory.BENEFICIAL, 3124687));
+            () -> new InstanceEnergyEffect(MobEffectCategory.BENEFICIAL, 0x55FF55));
 
     public static void register(IEventBus eventBus) {
         EFFECTS.register(eventBus);
