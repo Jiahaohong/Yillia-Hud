@@ -3,6 +3,7 @@ package com.yillia.hud.client;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yillia.hud.YilliaHud;
+import com.yillia.hud.data.PlayerEnergy;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -14,6 +15,8 @@ public class EnergyHudOverlay {
             "textures/gui/energy0.png");
     private static final ResourceLocation ENERGY1 = new ResourceLocation(YilliaHud.MOD_ID,
             "textures/gui/energy1.png");
+    private static final ResourceLocation ENERGY2 = new ResourceLocation(YilliaHud.MOD_ID,
+            "textures/gui/energy2.png");
 
     public static final IGuiOverlay HUD = ((gui, poseStack, partialTick, screenWidth, screenHeight) -> {
         if (gui.shouldDrawSurvivalElements()) {
@@ -25,8 +28,15 @@ public class EnergyHudOverlay {
                 int left = screenWidth / 2 + 26;
                 int top = screenHeight / 2;
                 int energy = ClientEnergyData.getEnergy();
+                int maxEnergy = ClientEnergyData.getMaxEnergy();
+                int B = PlayerEnergy.BASE_MAX_ENERGY;
 
-                drawCircle(poseStack, left, top, 1, ClientEnergyData.getEnergy(), ClientEnergyData.getMaxEnergy());
+                RenderSystem.setShaderTexture(0, ENERGY0);
+                drawCircle(poseStack, left, top, 0, Math.min(energy, B), Math.min(maxEnergy, B));
+                RenderSystem.setShaderTexture(0, ENERGY1);
+                drawCircle(poseStack, left, top, 1, Math.min(Math.max(energy - B, 0), 2*B), Math.min(Math.max(maxEnergy - B, 0), 2*B));
+                RenderSystem.setShaderTexture(0, ENERGY2);
+                drawCircle(poseStack, left, top, 2, Math.min(Math.max(energy - 2*B, 0), 3*B), Math.min(Math.max(maxEnergy - 2*B, 0), 3*B));
             }
 
         }
@@ -34,13 +44,8 @@ public class EnergyHudOverlay {
     });
 
     private static void drawCircle(PoseStack poseStack, int centerX, int centerY, int scale, int energy, int maxEnergy) {
-        switch (scale) {
-            case 0: RenderSystem.setShaderTexture(0, ENERGY0); break;
-            case 1: RenderSystem.setShaderTexture(0, ENERGY1); break;
-            default: return;
-        }
-        int sizeXY = 16 + scale * 6;
-        int quarterEnergy = ClientEnergyData.getMaxEnergy() / 4;
+        int sizeXY = 10 + scale * 6;
+        int quarterEnergy = PlayerEnergy.BASE_MAX_ENERGY / 4;
         if (maxEnergy >= quarterEnergy) {
             drawLeft(poseStack, centerX, centerY, sizeXY, (float)Math.min(energy, quarterEnergy) / quarterEnergy);
         }

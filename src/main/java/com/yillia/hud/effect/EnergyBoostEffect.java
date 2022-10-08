@@ -22,7 +22,8 @@ public class EnergyBoostEffect extends MobEffect {
         if (!livingEntity.level.isClientSide()) {
             if (livingEntity instanceof Player player) {
                 player.getCapability(PlayerEnergyProvider.PLAYER_ENERGY).ifPresent(energy -> {
-                    energy.MAX_ENERGY = PlayerEnergy.BASE_MAX_ENERGY + 500*(amplifier+1);
+                    energy.MAX_ENERGY = PlayerEnergy.BASE_MAX_ENERGY + PlayerEnergy.BASE_MAX_ENERGY / 4 *(amplifier+1);
+                    energy.MAX_ENERGY = Math.min(energy.MAX_ENERGY, 3 * PlayerEnergy.BASE_MAX_ENERGY);
                     ModMessages.sendToPlayer(new EnergyC2SPacket(energy), (ServerPlayer) player);
                 });
             }
