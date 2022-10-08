@@ -24,7 +24,7 @@ public class EnergyHudOverlay {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
             //Player Energy Bar
-            if (ClientEnergyData.getEnergy() >= 0) {
+            if (ClientEnergyData.getEnergy() >= 0 && ClientEnergyData.getEnergy() < ClientEnergyData.getMaxEnergy()) {
                 int left = screenWidth / 2 + 26;
                 int top = screenHeight / 2;
                 int energy = ClientEnergyData.getEnergy();
